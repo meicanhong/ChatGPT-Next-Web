@@ -9,6 +9,8 @@ declare global {
       VERCEL?: string;
       HIDE_USER_API_KEY?: string; // disable user's api key input
       DISABLE_GPT4?: string; // allow user to use gpt-4 or not
+      ADMIN_PASSWORD?: string;
+      REDIS_HOST?: string;
     }
   }
 }
