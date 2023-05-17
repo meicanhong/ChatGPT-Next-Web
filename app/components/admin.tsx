@@ -164,7 +164,7 @@ export function Admin(): JSX.Element {
         New Key
       </Button>
       <Button type="primary" onClick={handleSetAdminPassword}>
-        Set Admin Password
+        Enter Admin Password
       </Button>
       <Table
         dataSource={data}
@@ -214,7 +214,7 @@ export function Admin(): JSX.Element {
         </Form>
       </Modal>
       <Modal
-        title="adminPasswordVisible"
+        title="Enter Admin Password"
         visible={adminPasswordVisible}
         onOk={handleAdminPasswordOk}
         onCancel={handleAdminPasswordCancel}
