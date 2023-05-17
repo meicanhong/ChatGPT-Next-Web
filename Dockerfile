@@ -1,44 +1,23 @@
 FROM node:18-alpine AS base
-
-FROM base AS deps
-
+WORKDIR /chatgpt
 RUN apk add --no-cache libc6-compat
-
-WORKDIR /app
-
-COPY package.json yarn.lock ./
-
 RUN yarn config set registry 'https://registry.npm.taobao.org'
-RUN yarn install
-
-FROM base AS builder
-
+RUN apk add proxychains-ng
 RUN apk update && apk add --no-cache git
 
-ENV OPENAI_API_KEY=""
-ENV CODE=""
-
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-RUN yarn build
-
-FROM base AS runner
-WORKDIR /app
-
-RUN apk add proxychains-ng
-
+EXPOSE 3000
 ENV PROXY_URL=""
 ENV OPENAI_API_KEY=""
 ENV CODE=""
 
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/.next/standalone ./
-COPY --from=builder /app/.next/static ./.next/static
-COPY --from=builder /app/.next/server ./.next/server
+COPY package.json ./package.json
+COPY yarn.lock ./yarn.lock
+RUN yarn install
 
-EXPOSE 3000
+COPY . .
+RUN yarn build
+
+COPY .next/standalone/server.js ./server.js
 
 CMD if [ -n "$PROXY_URL" ]; then \
         protocol=$(echo $PROXY_URL | cut -d: -f1); \
