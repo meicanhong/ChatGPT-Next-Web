@@ -17,7 +17,7 @@ RUN yarn install
 COPY . .
 RUN yarn build
 
-COPY .next/standalone/server.js ./server.js
+COPY ./.next/standalone/server.js ./server.js
 
 CMD if [ -n "$PROXY_URL" ]; then \
         protocol=$(echo $PROXY_URL | cut -d: -f1); \
