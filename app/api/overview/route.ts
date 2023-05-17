@@ -20,7 +20,7 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
     record.ttl = await getTTL(key);
     record.endTime = formatTimestamp(Date.now() + record.ttl * 1000);
     record.createdAt = formatTimestamp(
-      record.createdAt ||
+      record?.createdAt ||
         Date.now() + record.ttl * 1000 - record.seconds * 1000,
     );
     users.push(record);
